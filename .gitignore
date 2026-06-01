@@ -1,0 +1,9 @@
+#Node.js
+node_modules/
+
+#Environment variables
+.env
+
+#Playwright test reports
+tests/playwright/test-results/
+tests/playwright/playwright-report/
