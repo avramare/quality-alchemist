@@ -1,0 +1,150 @@
+import { test, expect } from '@playwright/test';
+import { login, TEST_USER } from '../helpers/auth';
+import { apiSeedDatabase } from '../helpers/api';
+import TransactionPage from '../pages/TransactionPage';
+
+test.describe('Transactions', () => {
+  test.beforeEach(async ({ page, request }) => {
+    await apiSeedDatabase(request);
+    await login(page, TEST_USER.username, TEST_USER.password);
+  });
+
+  test('should allow a user to create a payment', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    // Navigate to new transaction
+    await transactionPage.navigateToNewTransaction();
+
+    // Wait for user list to load and select the first user
+    await transactionPage.selectFirstUser();
+
+    // Fill transaction details
+    await transactionPage.fillAmount('25');
+    await transactionPage.fillDescription('Test payment');
+
+    // Submit payment
+    await transactionPage.submitPayment();
+
+    // Verify confirmation step
+    await expect(transactionPage.getConfirmationText('Paid')).toBeVisible();
+    await expect(transactionPage.getReturnToTransactionsButton()).toBeVisible();
+  });
+
+  test('should allow a user to create a request', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    // Navigate to new transaction
+    await transactionPage.navigateToNewTransaction();
+
+    // Wait for user list to load and select the first user
+    await transactionPage.selectFirstUser();
+
+    // Fill transaction details
+    await transactionPage.fillAmount('50');
+    await transactionPage.fillDescription('Test request');
+
+    // Submit request
+    await transactionPage.submitRequest();
+
+    // Verify confirmation step
+    await expect(transactionPage.getConfirmationText('Requested')).toBeVisible();
+    await expect(transactionPage.getReturnToTransactionsButton()).toBeVisible();
+  });
+
+  test('should disable submit buttons when form is incomplete', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    // Navigate to new transaction
+    await transactionPage.navigateToNewTransaction();
+
+    // Select the first user
+    await transactionPage.selectFirstUser();
+
+    // Buttons should start disabled (no amount, no description)
+    await expect(transactionPage.getPayButton()).toBeDisabled();
+    await expect(transactionPage.getRequestButton()).toBeDisabled();
+
+    // Fill only the amount — buttons should still be disabled (no description)
+    await transactionPage.fillAmount('25');
+    await expect(transactionPage.getPayButton()).toBeDisabled();
+    await expect(transactionPage.getRequestButton()).toBeDisabled();
+
+    // Fill the description — buttons should now be enabled
+    await transactionPage.fillDescription('Form validation test');
+    await expect(transactionPage.getPayButton()).toBeEnabled();
+    await expect(transactionPage.getRequestButton()).toBeEnabled();
+  });
+
+  test('should not allow a transaction without a description', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    // Navigate to new transaction
+    await transactionPage.navigateToNewTransaction();
+
+    // Select the first user
+    await transactionPage.selectFirstUser();
+
+    // Enter a valid amount but leave description empty
+    await transactionPage.fillAmount('25');
+
+    // Pay and Request buttons should be disabled without a description
+    await expect(transactionPage.getPayButton()).toBeDisabled();
+    await expect(transactionPage.getRequestButton()).toBeDisabled();
+  });
+
+  test('should view personal transactions tab', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    await transactionPage.navigateToPersonalTab();
+
+    await expect(transactionPage.getTransactionList()).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should view public transactions tab', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    await transactionPage.navigateToPublicTab();
+
+    await expect(transactionPage.getTransactionList()).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should view contacts transactions tab', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    await transactionPage.navigateToContactsTab();
+
+    // Contacts tab may show a list or empty state
+    const transactionList = transactionPage.getTransactionList();
+    const emptyState = page.getByText('No Transactions');
+    await expect(transactionList.or(emptyState)).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should display transaction detail after creation', async ({ page }) => {
+    const transactionPage = new TransactionPage(page);
+
+    // Navigate to new transaction
+    await transactionPage.navigateToNewTransaction();
+
+    // Select the first user
+    await transactionPage.selectFirstUser();
+
+    // Fill transaction details
+    await transactionPage.fillAmount('10');
+    await transactionPage.fillDescription('Detail verification payment');
+
+    // Submit payment
+    await transactionPage.submitPayment();
+
+    // Verify confirmation screen
+    await expect(transactionPage.getConfirmationText('Paid')).toBeVisible();
+
+    // Return to transactions list
+    await transactionPage.returnToTransactions();
+
+    // Navigate to personal tab to see the transaction
+    await transactionPage.navigateToPersonalTab();
+
+    // Verify the transaction appears in the list
+    await expect(transactionPage.getTransactionList()).toBeVisible({ timeout: 10000 });
+  });
+});

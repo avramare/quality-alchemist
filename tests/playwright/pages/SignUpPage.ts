@@ -1,0 +1,131 @@
+import { type Page, type Locator } from '@playwright/test';
+
+export default class SignUpPage {
+  private readonly title: Locator;
+  private readonly firstNameField: Locator;
+  private readonly lastNameField: Locator;
+  private readonly usernameField: Locator;
+  private readonly passwordField: Locator;
+  private readonly confirmPasswordField: Locator;
+  private readonly submitButton: Locator;
+  private readonly firstNameHelperText: Locator;
+  private readonly lastNameHelperText: Locator;
+  private readonly usernameHelperText: Locator;
+  private readonly passwordHelperText: Locator;
+  private readonly confirmPasswordHelperText: Locator;
+  private readonly signinLink: Locator;
+
+  constructor(private page: Page) {
+    this.title = page.locator('[data-test="signup-title"]');
+    this.firstNameField = page.locator('[data-test="signup-first-name"] input');
+    this.lastNameField = page.locator('[data-test="signup-last-name"] input');
+    this.usernameField = page.locator('[data-test="signup-username"] input');
+    this.passwordField = page.locator('[data-test="signup-password"] input');
+    this.confirmPasswordField = page.locator('[data-test="signup-confirmPassword"] input');
+    this.submitButton = page.locator('[data-test="signup-submit"]');
+    this.firstNameHelperText = page.locator('#firstName-helper-text');
+    this.lastNameHelperText = page.locator('#lastName-helper-text');
+    this.usernameHelperText = page.locator('#username-helper-text');
+    this.passwordHelperText = page.locator('#password-helper-text');
+    this.confirmPasswordHelperText = page.locator('#confirmPassword-helper-text');
+    this.signinLink = page.locator('[data-test="signin"]');
+  }
+
+  async navigate(): Promise<void> {
+    await this.page.goto('/signup');
+  }
+
+  async fillFirstName(firstName: string): Promise<void> {
+    await this.firstNameField.fill(firstName);
+  }
+
+  async fillLastName(lastName: string): Promise<void> {
+    await this.lastNameField.fill(lastName);
+  }
+
+  async fillUsername(username: string): Promise<void> {
+    await this.usernameField.fill(username);
+  }
+
+  async fillPassword(password: string): Promise<void> {
+    await this.passwordField.fill(password);
+  }
+
+  async fillConfirmPassword(confirmPassword: string): Promise<void> {
+    await this.confirmPasswordField.fill(confirmPassword);
+  }
+
+  async submit(): Promise<void> {
+    await this.submitButton.click();
+  }
+
+  /** Fill the entire signup form and submit */
+  async fillSignUpFormAndSubmit(user: {
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }): Promise<void> {
+    await this.fillFirstName(user.firstName);
+    await this.fillLastName(user.lastName);
+    await this.fillUsername(user.username);
+    await this.fillPassword(user.password);
+    await this.fillConfirmPassword(user.confirmPassword);
+    await this.submit();
+  }
+
+  async getTitle(): Promise<string> {
+    return (await this.title.textContent()) ?? '';
+  }
+
+  /** Clear a field and blur to trigger validation */
+  async clearFirstNameAndBlur(): Promise<void> {
+    await this.firstNameField.fill('');
+    await this.firstNameField.blur();
+  }
+
+  async clearLastNameAndBlur(): Promise<void> {
+    await this.lastNameField.fill('');
+    await this.lastNameField.blur();
+  }
+
+  async clearUsernameAndBlur(): Promise<void> {
+    await this.usernameField.fill('');
+    await this.usernameField.blur();
+  }
+
+  async clearPasswordAndBlur(): Promise<void> {
+    await this.passwordField.fill('');
+    await this.passwordField.blur();
+  }
+
+  async fillConfirmPasswordAndBlur(confirmPassword: string): Promise<void> {
+    await this.confirmPasswordField.fill(confirmPassword);
+    await this.confirmPasswordField.blur();
+  }
+
+  getFirstNameHelperText(): Locator {
+    return this.firstNameHelperText;
+  }
+
+  getLastNameHelperText(): Locator {
+    return this.lastNameHelperText;
+  }
+
+  getUsernameHelperText(): Locator {
+    return this.usernameHelperText;
+  }
+
+  getPasswordHelperText(): Locator {
+    return this.passwordHelperText;
+  }
+
+  getConfirmPasswordHelperText(): Locator {
+    return this.confirmPasswordHelperText;
+  }
+
+  getSubmitButton(): Locator {
+    return this.submitButton;
+  }
+}
