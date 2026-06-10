@@ -1,15 +1,15 @@
-# 🧪 Quality Alchemist
+# 🧪 Quality Alchemist 🧙‍♂️
 
 ![Playwright](https://img.shields.io/badge/-Playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/-GitHub%20Actions-%232088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
-QA Engineer portfolio demonstrating proficiency in Playwright.
+QA portfolio demonstrating automation engineering proficiency in Playwright.
 
-[![Playwright Tests](https://github.com/alatorre-sebastian/qa-automation-portfolio/actions/workflows/playwright.yml/badge.svg)](https://github.com/alatorre-sebastian/qa-automation-portfolio/actions/workflows/playwright.yml)
+[![Playwright Tests](https://github.com/avramare/quality-alchemist/actions/workflows/playwright.yml/badge.svg)](https://github.com/avramare/quality-alchemist/actions/workflows/playwright.yml)
 
 ## Test Suite
 
-Runs against the [cypress-realworld-app](https://github.com/cypress-io/cypress-realworld-app), a Venmo-like financial application with authentication, transactions, notifications, and user profiles.
+Running against the [cypress-realworld-app](https://github.com/cypress-io/cypress-realworld-app), a Venmo-like financial application with authentication, transactions, notifications, and user profiles.
 
 ### 🎭 Playwright — TypeScript E2E
 
