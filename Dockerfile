@@ -1,0 +1,26 @@
+FROM node:22-bookworm-slim
+
+# Install curl for healthcheck and git for husky postinstall
+RUN apt-get update && apt-get install -y --no-install-recommends curl git && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy the full application source
+COPY apps/cypress-realworld-app/ .
+
+# Remove submodule .git file and init a fresh repo so husky install works
+RUN rm -f .git && git init
+
+# Install dependencies (postinstall runs husky install + patch-package)
+RUN yarn install --frozen-lockfile || yarn install
+
+# Seed the database
+RUN cp data/database-seed.json data/database.json
+
+# Expose frontend and API ports
+EXPOSE 3000 3001
+
+# Use yarn start which runs prestart (db seed) + concurrently vite + api
+# Vite needs --host to bind to 0.0.0.0 (accessible outside container)
+CMD ["sh", "-c", "yarn db:seed:dev && npx concurrently 'npx vite --host' 'yarn start:api'"]
