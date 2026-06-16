@@ -8,6 +8,7 @@ graph TB
         end
         subgraph "tests/"
             PW[playwright/]
+            K6[k6/]
         end
         DC[docker-compose.yml]
         MK[Makefile]
@@ -24,8 +25,10 @@ graph TB
     RWA_SUB -.->|submodule| RWA
     DC -->|starts| RWA
     MK -->|orchestrates| PW
+    MK -->|orchestrates| K6
 
     PW -->|E2E Tests| UI
+    K6 -->|Performance Tests| API
 
     UI --> API
     API --> DB
