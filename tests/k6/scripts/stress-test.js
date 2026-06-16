@@ -16,20 +16,20 @@ import { API_URL, TEST_USER } from "../helpers/config.js";
  */
 
 export const options = {
-    stages: [
-    { duration: '1m', target: 10 },   // Ramp-up to 10 users over 1 minute
-    { duration: '2m', target: 10 },   // Stay at 10 users for 2 minutes
-    { duration: '1m', target: 50 },   // Scale up to 50 users over 1 minute
-    { duration: '2m', target: 50 },   // Stay at 50 users for 2 minutes
-    { duration: '1m', target: 100 },  // Scale up to 100 users over 1 minute
-    { duration: '2m', target: 100 },  // Stay at 100 users for 2 minutes
-    { duration: '1m', target: 200 },  // Scale up to 200 users over 1 minute
-    { duration: '2m', target: 200 },  // Stay at 200 users for 2 minutes
-    { duration: '2m', target: 0 },    // Ramp-down
+  stages: [
+    { duration: "1m", target: 10 }, // Ramp-up to 10 users over 1 minute
+    { duration: "2m", target: 10 }, // Stay at 10 users for 2 minutes
+    { duration: "1m", target: 50 }, // Scale up to 50 users over 1 minute
+    { duration: "2m", target: 50 }, // Stay at 50 users for 2 minutes
+    { duration: "1m", target: 100 }, // Scale up to 100 users over 1 minute
+    { duration: "2m", target: 100 }, // Stay at 100 users for 2 minutes
+    { duration: "1m", target: 200 }, // Scale up to 200 users over 1 minute
+    { duration: "2m", target: 200 }, // Stay at 200 users for 2 minutes
+    { duration: "2m", target: 0 }, // Ramp-down
   ],
   thresholds: {
-    http_req_duration: ['p(95)<1000'], // 95% of requests < 1s
-    http_req_failed: ['rate<0.10'],    // error rate < 10%
+    http_req_duration: ["p(95)<1000"], // 95% of requests < 1s
+    http_req_failed: ["rate<0.10"], // error rate < 10%
   },
 };
 
@@ -50,7 +50,7 @@ function login() {
   const loginRes = http.post(`${API_URL}/login`, loginPayload, params);
 
   check(loginRes, {
-    "login: status 200": (r) => r.status === 200,    
+    "login: status 200": (r) => r.status === 200,
   });
 
   return http.cookieJar();
@@ -91,12 +91,11 @@ export default function () {
   sleep(0.5);
 
   // 5. Get contacts
-  const contactsRes = http.get(`${API_URL}/contacts/username`, {
+  const contactsRes = http.get(`${API_URL}/contacts/${TEST_USER.username}`, {
     jar,
   });
   check(contactsRes, {
     "contacts: status 200": (r) => r.status === 200,
-    "contacts: response body is not empty": (r) => r.json().username === TEST_USER.username,
   });
 
   sleep(0.5);

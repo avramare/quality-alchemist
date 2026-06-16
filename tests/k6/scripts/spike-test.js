@@ -16,14 +16,14 @@ import { API_URL, TEST_USER } from "../helpers/config.js";
  */
 
 export const options = {
-    stages: [
-    { duration: '10s', target: 100 },  // sudden jump to 100 VUs
-    { duration: '1m', target: 100 },   // maintain 100 VUs for 1 minute
-    { duration: '10s', target: 0 },    // drop to 0 VUs
+  stages: [
+    { duration: "10s", target: 100 }, // sudden jump to 100 VUs
+    { duration: "1m", target: 100 }, // maintain 100 VUs for 1 minute
+    { duration: "10s", target: 0 }, // drop to 0 VUs
   ],
   thresholds: {
-    http_req_duration: ['p(95)<3000'], // 95% of requests < 3s
-    http_req_failed: ['rate<0.15'],    // error rate < 15%
+    http_req_duration: ["p(95)<3000"], // 95% of requests < 3s
+    http_req_failed: ["rate<0.15"], // error rate < 15%
   },
 };
 
@@ -44,7 +44,7 @@ function login() {
   const loginRes = http.post(`${API_URL}/login`, loginPayload, params);
 
   check(loginRes, {
-    "login: status 200": (r) => r.status === 200,    
+    "login: status 200": (r) => r.status === 200,
   });
 
   return http.cookieJar();
