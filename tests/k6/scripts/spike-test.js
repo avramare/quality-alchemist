@@ -85,10 +85,12 @@ export default function () {
   sleep(0.3);
 
   // 5. Get contacts
-  const contactsRes = http.get(`${API_URL}/contacts`, {
+  const contactsRes = http.get(`${API_URL}/contacts/${TEST_USER.username}`, {
     jar,
   });
   check(contactsRes, {
     "contacts: status 200": (r) => r.status === 200,
   });
+
+  sleep(0.3);
 }

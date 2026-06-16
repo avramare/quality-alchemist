@@ -91,11 +91,12 @@ export default function () {
   sleep(0.5);
 
   // 5. Get contacts
-  const contactsRes = http.get(`${API_URL}/contacts`, {
+  const contactsRes = http.get(`${API_URL}/contacts/username`, {
     jar,
   });
   check(contactsRes, {
     "contacts: status 200": (r) => r.status === 200,
+    "contacts: response body is not empty": (r) => r.json().username === TEST_USER.username,
   });
 
   sleep(0.5);
