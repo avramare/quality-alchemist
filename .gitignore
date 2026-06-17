@@ -7,3 +7,12 @@ node_modules/
 #Playwright test reports
 tests/playwright/test-results/
 tests/playwright/playwright-report/
+
+# k6 reports
+tests/k6/reports/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
