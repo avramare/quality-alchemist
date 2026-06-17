@@ -1,14 +1,17 @@
-# 🧪 Quality Alchemist 🧙‍♂️
+#  ✶⋆.˚ Quality Alchemist🧪⭑⋆｡˚
+
+<div align="center">
 
 ![Playwright](https://img.shields.io/badge/-Playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+![k6](https://img.shields.io/badge/-k6-%237D64FF?style=for-the-badge&logo=k6&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/-GitHub%20Actions-%232088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 ![Docker](https://img.shields.io/badge/-Docker-%232496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-QA portfolio demonstrating automation engineering proficiency in Playwright.
+  <img height="200" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmIyN2hvMXpyaTdwbzJyNGdmdTB5aHp4MzUydGR5M25zNHZhcmYwdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ok3E3BExQIV8ngWYTg/giphy.gif"  />
 
 [![Playwright Tests](https://github.com/avramare/quality-alchemist/actions/workflows/playwright.yml/badge.svg)](https://github.com/avramare/quality-alchemist/actions/workflows/playwright.yml)
-
----
+[![k6 Tests](https://github.com/avramare/quality-alchemist/actions/workflows/k6.yml/badge.svg)](https://github.com/avramare/quality-alchemist/actions/workflows/k6.yml)
+</div>
 
 ## Architecture
 
@@ -20,6 +23,7 @@ graph TB
         end
         subgraph "tests/"
             PW[playwright/]
+            K6[k6/]
         end
         DC[docker-compose.yml]
         MK[Makefile]
@@ -36,16 +40,18 @@ graph TB
     RWA_SUB -.->|submodule| RWA
     DC -->|starts| RWA
     MK -->|orchestrates| PW
+    MK -->|orchestrates| K6
 
     PW -->|E2E Tests| UI
+    K6 -->|Performance Tests| API
 
     UI --> API
     API --> DB
 ```
 
----
 
-## Test Suite
+
+## Test Suites
 
 Running against the [cypress-realworld-app](https://github.com/cypress-io/cypress-realworld-app), a Venmo-like financial application with authentication, transactions, notifications, and user profiles.
 
@@ -67,13 +73,35 @@ tests/playwright/
 
 ---
 
+### ⚡ k6 — Performance Testing
+
+**Type**: Load & Stress testing against the REST API
+
+```
+tests/k6/
+├── scripts/        → load-test.js (20 VUs), stress-test.js (up to 200 VUs)
+└── helpers/        → config.js (URLs, credentials)
+```
+
+| Scenario | Virtual Users | Duration | Thresholds |
+|---|---|---|---|
+| **Load** | Ramp-up to 20 VUs | ~5 min | p(95) < 2s, errors < 5% |
+| **Stress** | 10 → 50 → 100 → 200 VUs | ~14 min | p(95) < 3s, errors < 10% |
+
+**Endpoints**: POST /login · GET /transactions/public · GET /users · GET /notifications
+
+📂 [View code](tests/k6/) · 📄 [View README](tests/k6/README.md)
+
+---
+
 ## CI/CD
 
-Test suite has its own GitHub Actions workflow. It runs  on every push/PR to `main`.
+Each framework has its own GitHub Actions workflow. They run in parallel on every push/PR to `main`.
 
 ```
 .github/workflows/
-└── playwright.yml    → Build Docker → Playwright tests → Publish HTML report
+├── playwright.yml    → Build Docker → Playwright tests → Publish HTML report
+└── k6.yml            → Build Docker → k6 load test     → Publish JSON summary
 ```
 
 Workflow steps:
@@ -92,7 +120,8 @@ quality-alchemist/
 ├── apps/
 │   └── cypress-realworld-app/    # AUT (Git submodule)
 ├── tests/
-│   └── playwright/               # TypeScript E2E
+│   ├── playwright/               # TypeScript E2E
+│   └── k6/                       # Performance
 ├── .github/workflows/            # CI/CD pipeline
 ├── docker-compose.yml            # AUT orchestration
 ├── Dockerfile                    # AUT Docker image
@@ -112,6 +141,7 @@ quality-alchemist/
 | Git | `git --version` |
 | Docker + Docker Compose | `docker compose version` |
 | Node.js 18+ | `node --version` |
+| k6 | `k6 version` |
 
 </details>
 
@@ -139,8 +169,12 @@ cd tests/playwright && npm install && npx playwright install --with-deps
 # Start the app
 make start-aut
 
-# Run tests
+# Run all suits
 make test-all
+
+# Run a single suite
+make test-playwright
+make test-k6
 
 # Stop the app
 make stop-aut
@@ -155,10 +189,11 @@ make stop-aut
 | Category | Technologies |
 |---|---|
 | **E2E Testing** | Playwright |
-| **Languages** | TypeScript |
+| **Performance** | k6 (Grafana) |
+| **Languages** | TypeScript, JavaScript |
 | **Test Runners** | Playwright Test |
-| **CI/CD** | GitHub Actions |
+| **CI/CD** | GitHub Actions (2 independent workflows) |
 | **Infrastructure** | Docker Compose, Makefile |
-| **Reports** | Playwright HTML |
+| **Reports** | Playwright HTML, k6 JSON |
 
 ---
