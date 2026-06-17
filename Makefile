@@ -1,5 +1,5 @@
 # Makefile
-.PHONY: start-aut stop-aut test-all
+.PHONY: start-aut stop-aut test-playwright test-k6 test-all
 
 start-aut:
 	docker compose up -d
@@ -10,5 +10,12 @@ start-aut:
 stop-aut:
 	docker compose down
 
-test-all:
+test-playwright:
 	cd tests/playwright && npx playwright test
+
+test-k6:
+	cd tests/k6 && k6 run scripts/load-test.js
+
+test-all:
+	test-playwright
+	test-k6
