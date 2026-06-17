@@ -1,5 +1,3 @@
-#  ✶⋆.˚ Quality Alchemist🧪⭑⋆｡˚
-
 <div align="center">
 
 ![Playwright](https://img.shields.io/badge/-Playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
@@ -11,6 +9,12 @@
 
 [![Playwright Tests](https://github.com/avramare/quality-alchemist/actions/workflows/playwright.yml/badge.svg)](https://github.com/avramare/quality-alchemist/actions/workflows/playwright.yml)
 [![k6 Tests](https://github.com/avramare/quality-alchemist/actions/workflows/k6.yml/badge.svg)](https://github.com/avramare/quality-alchemist/actions/workflows/k6.yml)
+
+</div>
+
+<div align="center">
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=1000&color=a855f7&center=true&vCenter=true&width=600&lines=Quality%20Alchemist%20🧪⭑⋆｡˚%20;QA%20Automation%20Engineering%20)](https://git.io/typing-svg)
 </div>
 
 ## Architecture
