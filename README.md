@@ -66,7 +66,7 @@ Running against the [cypress-realworld-app](https://github.com/cypress-io/cypres
 ```
 tests/playwright/
 ├── pages/          → LoginPage, SignUpPage, TransactionPage, NotificationPage
-├── tests/          → login, signup, transaction, notification specs
+├── tests/          → api, login, signup, transaction, notification specs
 └── playwright.config.ts
 ```
 
@@ -83,7 +83,7 @@ tests/playwright/
 
 ```
 tests/k6/
-├── scripts/        → load-test.js (20 VUs), stress-test.js (up to 200 VUs)
+├── scripts/        → load-test.js (20 VUs), stress-test.js (up to 200 VUs), spike-test.js (sudden up to 100VUs)
 └── helpers/        → config.js (URLs, credentials)
 ```
 
@@ -91,6 +91,7 @@ tests/k6/
 |---|---|---|---|
 | **Load** | Ramp-up to 20 VUs | ~5 min | p(95) < 2s, errors < 5% |
 | **Stress** | 10 → 50 → 100 → 200 VUs | ~14 min | p(95) < 3s, errors < 10% |
+| **Spike** | Sudden ramp-up to 100 VUs | ~2 min | p(95) < 3s, errors < 15% |
 
 **Endpoints**: POST /login · GET /transactions/public · GET /users · GET /notifications
 

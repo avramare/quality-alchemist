@@ -1,11 +1,12 @@
 # E2E Test Suite — Playwright (TypeScript)
 
-End-to-end test suite written in **Playwright** with **TypeScript** that validates the main flows of the cypress-realworld-app using the **Page Object Model (POM)** pattern.
+A production-grade hybrid UI + API test framework built with **Playwright** and **TypeScript**. Covers end-to-end UI flows, REST API validation and full CI/CD integration of the cypress-realworld-app.
 
 ## Tests Included
 
 | File | Flow | Description |
 |---|---|---|
+| `tests/api.spec.ts` | Login | User's CRUD, GET/POST/PUT/PATCH/DELETE coverage |
 | `tests/login.spec.ts` | Login | Successful login, invalid credentials, validation errors, empty credentials |
 | `tests/signup.spec.ts` | Registration | User registration with onboarding, validation errors, duplicate username |
 | `tests/transaction.spec.ts` | Transactions | Create payment, create request, form validation (incomplete fields), empty description, transaction detail |
@@ -44,6 +45,7 @@ tests/playwright/
 ├── playwright.config.ts      # Playwright configuration
 ├── tsconfig.json             # TypeScript configuration
 ├── helpers/
+│   ├── api.spec.ts         # API utility function
 │   └── auth.ts               # Login utility function
 ├── pages/
 │   ├── LoginPage.ts          # Page Object - Login
@@ -51,6 +53,7 @@ tests/playwright/
 │   ├── TransactionPage.ts   # Page Object - Transactions
 │   └── NotificationPage.ts  # Page Object - Notifications
 ├── tests/
+│   ├── api.spec.ts         # API tests
 │   ├── login.spec.ts         # Login tests
 │   ├── signup.spec.ts        # Registration tests
 │   ├── transaction.spec.ts   # Transaction tests

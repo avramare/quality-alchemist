@@ -76,6 +76,15 @@ Simulates a sudden jump from 0 to 100 virtual users to evaluate how app handles 
 | `http_req_duration` | p(95) < 3s | 95% of requests must respond in under 3s |
 | `http_req_failed` | rate < 0.10 | Error rate must be below 10% |
 
+### Spike Test
+
+### Stress Test
+
+| Metric | Threshold | Description |
+|---|---|---|
+| `http_req_duration` | p(95) < 3s | 95% of requests must respond in under 3s |
+| `http_req_failed` | rate < 0.15 | Error rate must be below 15% |
+
 If any threshold is not met, k6 returns a non-zero exit code, enabling direct integration with CI/CD pipelines.
 
 ## Configuration
