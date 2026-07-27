@@ -79,17 +79,16 @@ tests/playwright/
 
 ### ⚡ k6 — Performance Testing
 
-**Type**: Load & Stress testing against the REST API
-
 ```
 tests/k6/
-├── scripts/        → load-test.js (20 VUs), stress-test.js (up to 200 VUs), spike-test.js (sudden up to 100VUs)
+├── scripts/        → load-test.js, soak-test.js, stress-test.js, spike-test.js
 └── helpers/        → config.js (URLs, credentials)
 ```
 
 | Scenario | Virtual Users | Duration | Thresholds |
 |---|---|---|---|
 | **Load** | Ramp-up to 20 VUs | ~5 min | p(95) < 2s, errors < 5% |
+| **Soak** | Moderate load to 50 VUs | ~35 min | p(95) < 1.5s, errors < 5% |
 | **Stress** | 10 → 50 → 100 → 200 VUs | ~14 min | p(95) < 3s, errors < 10% |
 | **Spike** | Sudden ramp-up to 100 VUs | ~2 min | p(95) < 3s, errors < 15% |
 

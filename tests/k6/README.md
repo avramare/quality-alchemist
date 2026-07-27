@@ -69,14 +69,19 @@ Simulates a sudden jump from 0 to 100 virtual users to evaluate how app handles 
 | `http_req_duration` | p(95) < 2s | 95% of requests must respond in under 2s |
 | `http_req_failed` | rate < 0.05 | Error rate must be below 5% |
 
-### Stress Test
+### Soak Test
+
+| Metric | Threshold | Description |
+|---|---|---|
+| `http_req_duration` | p(95) < 3s | 95% of requests must respond in under 1,5s |
+| `http_req_failed` | rate < 0.10 | Error rate must be below 5% |
+
+### Spike Test
 
 | Metric | Threshold | Description |
 |---|---|---|
 | `http_req_duration` | p(95) < 3s | 95% of requests must respond in under 3s |
-| `http_req_failed` | rate < 0.10 | Error rate must be below 10% |
-
-### Spike Test
+| `http_req_failed` | rate < 0.15 | Error rate must be below 15% |
 
 ### Stress Test
 

@@ -5,6 +5,12 @@ import { API_URL, TEST_USER } from "../helpers/config.js";
 /**
  * Long duration test at moderate load — catches memory leaks and degradation over time.
  * Keep in mind, test runs for ~35minutes!
+ * Endpoints exercised:
+ * - POST /login (authentication)
+ * - GET /transactions/public (public listing of transactions)
+ * - GET /users (list of users)
+ * - GET /notifications (user notifications)
+ * - GET /contacts (user contacts)
  */
 export const options = {
   stages: [
@@ -13,8 +19,8 @@ export const options = {
     { duration: "2m", target: 0 },
   ],
   thresholds: {
-    http_req_failed: ["rate<0.05"],
-    http_req_duration: ["p(95)<1500", "p(99)<2500"],
+    http_req_failed: ["rate<0.05"], // HTTP request failure rate should be less than 5%
+    http_req_duration: ["p(95)<1500", "p(99)<2500"], // 95% of requests should be below 1500ms
   },
 };
 
