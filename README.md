@@ -1,9 +1,9 @@
 <div align="center">
 
-![Playwright](https://img.shields.io/badge/-Playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
-![k6](https://img.shields.io/badge/-k6-%237D64FF?style=for-the-badge&logo=k6&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/-GitHub%20Actions-%232088FF?style=for-the-badge&logo=github-actions&logoColor=white)
-![Docker](https://img.shields.io/badge/-Docker-%232496ED?style=for-the-badge&logo=docker&logoColor=white)
+[![Playwright](https://custom-icon-badges.demolab.com/badge/Playwright-2EAD33?logo=playwright&logoColor=fff)](#)
+![K6](https://img.shields.io/badge/K6-7D64FF?style=flat-square&logo=k6&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 
   <img height="200" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmIyN2hvMXpyaTdwbzJyNGdmdTB5aHp4MzUydGR5M25zNHZhcmYwdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ok3E3BExQIV8ngWYTg/giphy.gif"  />
 
